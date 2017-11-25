@@ -126,7 +126,7 @@
 
         .dplayer-full-in-icon {
             position: static !important;
-            display: inline-block !important;
+            display: none;
         }
 
         .dplayer-controller .dplayer-icons .dplayer-comment .dplayer-comment-box .dplayer-comment-input {
@@ -889,7 +889,7 @@
 
                 &:hover {
                     .dplayer-full-in-icon {
-                        display: block;
+                        display: none;
                     }
                 }
 
