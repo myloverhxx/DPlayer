@@ -5,6 +5,8 @@ class FullScreen {
         this.player = player;
 
         this.player.events.on('webfullscreen', () => {
+            console.log(this.player)
+            console.log(this.player.resize())
             this.player.resize();
         });
         this.player.events.on('webfullscreen_cancel', () => {
