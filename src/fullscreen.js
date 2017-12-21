@@ -5,8 +5,6 @@ class FullScreen {
         this.player = player;
 
         this.player.events.on('webfullscreen', () => {
-            console.log(this.player)
-            console.log(this.player.resize())
             this.player.resize();
         });
         this.player.events.on('webfullscreen_cancel', () => {
@@ -40,15 +38,19 @@ class FullScreen {
         switch (type) {
         case 'browser':
             if (this.player.container.requestFullscreen) {
+                console.log('requestFullscreen:' + this.player)
                 this.player.container.requestFullscreen();
             }
             else if (this.player.container.mozRequestFullScreen) {
+                console.log('mozRequestFullScreen:' + this.player)
                 this.player.container.mozRequestFullScreen();
             }
             else if (this.player.container.webkitRequestFullscreen) {
+                console.log('webkitRequestFullscreen:' + this.player)
                 this.player.container.webkitRequestFullscreen();
             }
             else if (this.player.video.webkitEnterFullscreen) {   // Safari for iOS
+                console.log('webkitEnterFullscreen:' + this.player)
                 this.player.video.webkitEnterFullscreen();
             }
             break;
