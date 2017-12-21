@@ -337,7 +337,7 @@ class DPlayer {
             this.hideTime = setTimeout(() => {
                 if (this.video.played.length && !this.disableHideController) {
                     this.container.classList.add('dplayer-hide-controller');
-                    closeSetting();
+                    // closeSetting();
                     closeComment();
                 }
             }, 2000);
@@ -351,163 +351,163 @@ class DPlayer {
         /**
          * setting
          */
-        const settingHTML = html.setting(this.tran, this.icons);
-
-        // toggle setting box
-        const settingIcon = this.container.getElementsByClassName('dplayer-setting-icon')[0];
-        const settingBox = this.container.getElementsByClassName('dplayer-setting-box')[0];
-        const mask = this.container.getElementsByClassName('dplayer-mask')[0];
-        settingBox.innerHTML = settingHTML.original;
-
-        const closeSetting = () => {
-            if (settingBox.classList.contains('dplayer-setting-box-open')) {
-                settingBox.classList.remove('dplayer-setting-box-open');
-                mask.classList.remove('dplayer-mask-show');
-                setTimeout(() => {
-                    settingBox.classList.remove('dplayer-setting-box-narrow');
-                    settingBox.innerHTML = settingHTML.original;
-                    settingEvent();
-                }, 300);
-            }
-
-            this.disableHideController = false;
-        };
-        const openSetting = () => {
-            this.disableHideController = true;
-
-            settingBox.classList.add('dplayer-setting-box-open');
-            mask.classList.add('dplayer-mask-show');
-        };
-
-        mask.addEventListener('click', () => {
-            closeSetting();
-        });
-        settingIcon.addEventListener('click', () => {
-            openSetting();
-        });
-
-        this.loop = this.options.loop;
-        let showdan = this.user.get('danmaku');
-        if (!showdan) {
-            this.danmaku && this.danmaku.hide();
-        }
-        let unlimitDan = this.user.get('unlimited');
-        const settingEvent = () => {
-            // loop control
-            const loopEle = this.container.getElementsByClassName('dplayer-setting-loop')[0];
-            const loopToggle = loopEle.getElementsByClassName('dplayer-toggle-setting-input')[0];
-
-            loopToggle.checked = this.loop;
-
-            loopEle.addEventListener('click', () => {
-                loopToggle.checked = !loopToggle.checked;
-                if (loopToggle.checked) {
-                    this.loop = true;
-                }
-                else {
-                    this.loop = false;
-                }
-                closeSetting();
-            });
-
-            // show danmaku control
-            const showDanEle = this.container.getElementsByClassName('dplayer-setting-showdan')[0];
-            const showDanToggle = showDanEle.getElementsByClassName('dplayer-showdan-setting-input')[0];
-
-            showDanToggle.checked = showdan;
-
-            showDanEle.addEventListener('click', () => {
-                showDanToggle.checked = !showDanToggle.checked;
-                if (showDanToggle.checked) {
-                    showdan = true;
-                    if (!this.paused) {
-                        this.danmaku.show();
-                    }
-                }
-                else {
-                    showdan = false;
-                    this.danmaku.hide();
-                }
-                this.user.set('danmaku', showdan ? 1 : 0);
-                closeSetting();
-            });
-
-            // unlimited danmaku control
-            const unlimitDanEle = this.container.getElementsByClassName('dplayer-setting-danunlimit')[0];
-            const unlimitDanToggle = unlimitDanEle.getElementsByClassName('dplayer-danunlimit-setting-input')[0];
-
-            unlimitDanToggle.checked = unlimitDan;
-
-            unlimitDanEle.addEventListener('click', () => {
-                unlimitDanToggle.checked = !unlimitDanToggle.checked;
-                if (unlimitDanToggle.checked) {
-                    unlimitDan = true;
-                    this.danmaku.unlimit(true);
-                }
-                else {
-                    unlimitDan = false;
-                    this.danmaku.unlimit(false);
-                }
-                this.user.set('unlimited', unlimitDan ? 1 : 0);
-                closeSetting();
-            });
-
-            // speed control
-            const speedEle = this.container.getElementsByClassName('dplayer-setting-speed')[0];
-            speedEle.addEventListener('click', () => {
-                settingBox.classList.add('dplayer-setting-box-narrow');
-                settingBox.innerHTML = settingHTML.speed;
-
-                const speedItem = settingBox.getElementsByClassName('dplayer-setting-speed-item');
-                for (let i = 0; i < speedItem.length; i++) {
-                    speedItem[i].addEventListener('click', () => {
-                        this.video.playbackRate = speedItem[i].dataset.speed;
-                        closeSetting();
-                    });
-                }
-            });
-
-            if (this.danmaku) {
-                // danmaku opacity
-                bar.danmakuBar = this.container.getElementsByClassName('dplayer-danmaku-bar-inner')[0];
-                const danmakuBarWrapWrap = this.container.getElementsByClassName('dplayer-danmaku-bar-wrap')[0];
-                const danmakuBarWrap = this.container.getElementsByClassName('dplayer-danmaku-bar')[0];
-                const danmakuSettingBox = this.container.getElementsByClassName('dplayer-setting-danmaku')[0];
-                const dWidth = 130;
-                this.on('danmaku_opacity', (percentage) => {
-                    this.updateBar('danmaku', percentage, 'width');
-                    this.user.set('opacity', percentage);
-                });
-                this.danmaku.opacity(this.user.get('opacity'));
-
-                const danmakuMove = (event) => {
-                    const e = event || window.event;
-                    let percentage = (e.clientX - utils.getElementViewLeft(danmakuBarWrap)) / dWidth;
-                    percentage = percentage > 0 ? percentage : 0;
-                    percentage = percentage < 1 ? percentage : 1;
-                    this.danmaku.opacity(percentage);
-                };
-                const danmakuUp = () => {
-                    document.removeEventListener('mouseup', danmakuUp);
-                    document.removeEventListener('mousemove', danmakuMove);
-                    danmakuSettingBox.classList.remove('dplayer-setting-danmaku-active');
-                };
-
-                danmakuBarWrapWrap.addEventListener('click', (event) => {
-                    const e = event || window.event;
-                    let percentage = (e.clientX - utils.getElementViewLeft(danmakuBarWrap)) / dWidth;
-                    percentage = percentage > 0 ? percentage : 0;
-                    percentage = percentage < 1 ? percentage : 1;
-                    this.danmaku.opacity(percentage);
-                });
-                danmakuBarWrapWrap.addEventListener('mousedown', () => {
-                    document.addEventListener('mousemove', danmakuMove);
-                    document.addEventListener('mouseup', danmakuUp);
-                    danmakuSettingBox.classList.add('dplayer-setting-danmaku-active');
-                });
-            }
-        };
-        settingEvent();
+        // const settingHTML = html.setting(this.tran, this.icons);
+        //
+        // // toggle setting box
+        // const settingIcon = this.container.getElementsByClassName('dplayer-setting-icon')[0];
+        // const settingBox = this.container.getElementsByClassName('dplayer-setting-box')[0];
+         const mask = this.container.getElementsByClassName('dplayer-mask')[0];
+        // settingBox.innerHTML = settingHTML.original;
+        //
+        // const closeSetting = () => {
+        //     if (settingBox.classList.contains('dplayer-setting-box-open')) {
+        //         settingBox.classList.remove('dplayer-setting-box-open');
+        //         mask.classList.remove('dplayer-mask-show');
+        //         setTimeout(() => {
+        //             settingBox.classList.remove('dplayer-setting-box-narrow');
+        //             settingBox.innerHTML = settingHTML.original;
+        //             settingEvent();
+        //         }, 300);
+        //     }
+        //
+        //     this.disableHideController = false;
+        // };
+        // const openSetting = () => {
+        //     this.disableHideController = true;
+        //
+        //     settingBox.classList.add('dplayer-setting-box-open');
+        //     mask.classList.add('dplayer-mask-show');
+        // };
+        //
+        // mask.addEventListener('click', () => {
+        //     closeSetting();
+        // });
+        // settingIcon.addEventListener('click', () => {
+        //     openSetting();
+        // });
+        //
+        // this.loop = this.options.loop;
+        // let showdan = this.user.get('danmaku');
+        // if (!showdan) {
+        //     this.danmaku && this.danmaku.hide();
+        // }
+        // let unlimitDan = this.user.get('unlimited');
+        // const settingEvent = () => {
+        //     // loop control
+        //     const loopEle = this.container.getElementsByClassName('dplayer-setting-loop')[0];
+        //     const loopToggle = loopEle.getElementsByClassName('dplayer-toggle-setting-input')[0];
+        //
+        //     loopToggle.checked = this.loop;
+        //
+        //     loopEle.addEventListener('click', () => {
+        //         loopToggle.checked = !loopToggle.checked;
+        //         if (loopToggle.checked) {
+        //             this.loop = true;
+        //         }
+        //         else {
+        //             this.loop = false;
+        //         }
+        //         closeSetting();
+        //     });
+        //
+        //     // show danmaku control
+        //     const showDanEle = this.container.getElementsByClassName('dplayer-setting-showdan')[0];
+        //     const showDanToggle = showDanEle.getElementsByClassName('dplayer-showdan-setting-input')[0];
+        //
+        //     showDanToggle.checked = showdan;
+        //
+        //     showDanEle.addEventListener('click', () => {
+        //         showDanToggle.checked = !showDanToggle.checked;
+        //         if (showDanToggle.checked) {
+        //             showdan = true;
+        //             if (!this.paused) {
+        //                 this.danmaku.show();
+        //             }
+        //         }
+        //         else {
+        //             showdan = false;
+        //             this.danmaku.hide();
+        //         }
+        //         this.user.set('danmaku', showdan ? 1 : 0);
+        //         closeSetting();
+        //     });
+        //
+        //     // unlimited danmaku control
+        //     const unlimitDanEle = this.container.getElementsByClassName('dplayer-setting-danunlimit')[0];
+        //     const unlimitDanToggle = unlimitDanEle.getElementsByClassName('dplayer-danunlimit-setting-input')[0];
+        //
+        //     unlimitDanToggle.checked = unlimitDan;
+        //
+        //     unlimitDanEle.addEventListener('click', () => {
+        //         unlimitDanToggle.checked = !unlimitDanToggle.checked;
+        //         if (unlimitDanToggle.checked) {
+        //             unlimitDan = true;
+        //             this.danmaku.unlimit(true);
+        //         }
+        //         else {
+        //             unlimitDan = false;
+        //             this.danmaku.unlimit(false);
+        //         }
+        //         this.user.set('unlimited', unlimitDan ? 1 : 0);
+        //         closeSetting();
+        //     });
+        //
+        //     // speed control
+        //     const speedEle = this.container.getElementsByClassName('dplayer-setting-speed')[0];
+        //     speedEle.addEventListener('click', () => {
+        //         settingBox.classList.add('dplayer-setting-box-narrow');
+        //         settingBox.innerHTML = settingHTML.speed;
+        //
+        //         const speedItem = settingBox.getElementsByClassName('dplayer-setting-speed-item');
+        //         for (let i = 0; i < speedItem.length; i++) {
+        //             speedItem[i].addEventListener('click', () => {
+        //                 this.video.playbackRate = speedItem[i].dataset.speed;
+        //                 closeSetting();
+        //             });
+        //         }
+        //     });
+        //
+        //     if (this.danmaku) {
+        //         // danmaku opacity
+        //         bar.danmakuBar = this.container.getElementsByClassName('dplayer-danmaku-bar-inner')[0];
+        //         const danmakuBarWrapWrap = this.container.getElementsByClassName('dplayer-danmaku-bar-wrap')[0];
+        //         const danmakuBarWrap = this.container.getElementsByClassName('dplayer-danmaku-bar')[0];
+        //         const danmakuSettingBox = this.container.getElementsByClassName('dplayer-setting-danmaku')[0];
+        //         const dWidth = 130;
+        //         this.on('danmaku_opacity', (percentage) => {
+        //             this.updateBar('danmaku', percentage, 'width');
+        //             this.user.set('opacity', percentage);
+        //         });
+        //         this.danmaku.opacity(this.user.get('opacity'));
+        //
+        //         const danmakuMove = (event) => {
+        //             const e = event || window.event;
+        //             let percentage = (e.clientX - utils.getElementViewLeft(danmakuBarWrap)) / dWidth;
+        //             percentage = percentage > 0 ? percentage : 0;
+        //             percentage = percentage < 1 ? percentage : 1;
+        //             this.danmaku.opacity(percentage);
+        //         };
+        //         const danmakuUp = () => {
+        //             document.removeEventListener('mouseup', danmakuUp);
+        //             document.removeEventListener('mousemove', danmakuMove);
+        //             danmakuSettingBox.classList.remove('dplayer-setting-danmaku-active');
+        //         };
+        //
+        //         danmakuBarWrapWrap.addEventListener('click', (event) => {
+        //             const e = event || window.event;
+        //             let percentage = (e.clientX - utils.getElementViewLeft(danmakuBarWrap)) / dWidth;
+        //             percentage = percentage > 0 ? percentage : 0;
+        //             percentage = percentage < 1 ? percentage : 1;
+        //             this.danmaku.opacity(percentage);
+        //         });
+        //         danmakuBarWrapWrap.addEventListener('mousedown', () => {
+        //             document.addEventListener('mousemove', danmakuMove);
+        //             document.addEventListener('mouseup', danmakuUp);
+        //             danmakuSettingBox.classList.add('dplayer-setting-danmaku-active');
+        //         });
+        //     }
+        // };
+        // settingEvent();
 
         // set duration time
         if (this.video.duration !== 1) { // compatibility: Android browsers will output 1 at first
@@ -634,9 +634,9 @@ class DPlayer {
         });
 
         // web full screen
-        this.container.getElementsByClassName('dplayer-full-in-icon')[0].addEventListener('click', () => {
-            this.fullScreen.toggle('web');
-        });
+        // this.container.getElementsByClassName('dplayer-full-in-icon')[0].addEventListener('click', () => {
+        //     this.fullScreen.toggle('web');
+        // });
 
         /**
          * hot key
