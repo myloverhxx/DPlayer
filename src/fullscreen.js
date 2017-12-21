@@ -38,19 +38,19 @@ class FullScreen {
         switch (type) {
         case 'browser':
             if (this.player.container.requestFullscreen) {
-                console.log('requestFullscreen:' + this.player)
+                console.log('requestFullscreen:' + JSON.stringify(this.player))
                 this.player.container.requestFullscreen();
             }
             else if (this.player.container.mozRequestFullScreen) {
-                console.log('mozRequestFullScreen:' + this.player)
+                console.log('mozRequestFullScreen:' + JSON.stringify(this.player))
                 this.player.container.mozRequestFullScreen();
             }
             else if (this.player.container.webkitRequestFullscreen) {
-                console.log('webkitRequestFullscreen:' + this.player)
+                console.log('webkitRequestFullscreen:' + JSON.stringify(this.player))
                 this.player.container.webkitRequestFullscreen();
             }
             else if (this.player.video.webkitEnterFullscreen) {   // Safari for iOS
-                console.log('webkitEnterFullscreen:' + this.player)
+                console.log('webkitEnterFullscreen:' + JSON.stringify(this.player))
                 this.player.video.webkitEnterFullscreen();
             }
             break;
