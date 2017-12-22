@@ -34,7 +34,7 @@ class FullScreen {
         }
     }
 
-    request (type = 'browser') {
+    request (type = 'browser', playButton) {
         switch (type) {
         case 'browser':
             if (this.player.container.requestFullscreen) {
@@ -47,6 +47,7 @@ class FullScreen {
             }
             else if (this.player.container.webkitRequestFullscreen) {
                 alert('3')
+                playButton.click();
                 this.player.container.webkitRequestFullscreen();
             }
             else if (this.player.video.webkitEnterFullscreen) {   // Safari for iOS
@@ -91,14 +92,12 @@ class FullScreen {
         }
     }
 
-    toggle (type = 'browser') {
+    toggle (type = 'browser', playButton) {
         if (this.isFullScreen(type)) {
-            console.log('is full screen')
             this.cancel(type);
         }
         else {
-            console.log('not full screen')
-            this.request(type);
+            this.request(type, playButton);
         }
     }
 }
