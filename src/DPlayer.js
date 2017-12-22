@@ -630,9 +630,8 @@ class DPlayer {
 
         // browser full screen
         this.container.getElementsByClassName('dplayer-full-icon')[0].addEventListener('click', () => {
-            console.log('click full screen')
-            console.log('this:' + JSON.stringify(this))
-            console.log('fullScreen:' + JSON.stringify(this.fullScreen))
+            alert('click full screen')
+            alert(navigator.userAgent)
             this.fullScreen.toggle('browser');
         });
 
