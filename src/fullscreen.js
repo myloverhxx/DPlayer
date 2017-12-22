@@ -38,20 +38,20 @@ class FullScreen {
         switch (type) {
         case 'browser':
             if (this.player.container.requestFullscreen) {
-                alert('1')
                 this.player.container.requestFullscreen();
             }
             else if (this.player.container.mozRequestFullScreen) {
-                alert('2')
                 this.player.container.mozRequestFullScreen();
             }
             else if (this.player.container.webkitRequestFullscreen) {
-                alert('3')
-                playButton.click();
+                try {
+                    playButton.click();
+                }catch(e) {
+                    console.log(e)
+                }
                 this.player.container.webkitRequestFullscreen();
             }
             else if (this.player.video.webkitEnterFullscreen) {   // Safari for iOS
-                alert('4')
                 this.player.video.webkitEnterFullscreen();
             }
             break;

@@ -630,7 +630,6 @@ class DPlayer {
 
         // browser full screen
         this.container.getElementsByClassName('dplayer-full-icon')[0].addEventListener('click', () => {
-            alert(navigator.userAgent)
             this.fullScreen.toggle('browser', this.playButton)
         });
 
