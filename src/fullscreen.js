@@ -38,23 +38,20 @@ class FullScreen {
         switch (type) {
         case 'browser':
             if (this.player.container.requestFullscreen) {
+                alert('1')
                 this.player.container.requestFullscreen();
             }
             else if (this.player.container.mozRequestFullScreen) {
+                alert('2')
                 this.player.container.mozRequestFullScreen();
             }
             else if (this.player.container.webkitRequestFullscreen) {
-                // console.log('webkitRequestFullscreen:')
+                alert('3')
                 this.player.container.webkitRequestFullscreen();
             }
             else if (this.player.video.webkitEnterFullscreen) {   // Safari for iOS
+                alert('4')
                 this.player.video.webkitEnterFullscreen();
-            }
-            else {
-                alert('can\'t fullscreen')
-                this.player.container.onfullscreenerror = function () {
-                    console.log("FULL SCREEN DENIED")
-                };
             }
             break;
         case 'web':
@@ -96,9 +93,11 @@ class FullScreen {
 
     toggle (type = 'browser') {
         if (this.isFullScreen(type)) {
+            console.log('is full screen')
             this.cancel(type);
         }
         else {
+            console.log('not full screen')
             this.request(type);
         }
     }
