@@ -510,9 +510,10 @@ class DPlayer {
         // settingEvent();
 
         // set duration time
-        if (this.video.duration !== 1) { // compatibility: Android browsers will output 1 at first
-            this.container.getElementsByClassName('dplayer-dtime')[0].innerHTML = this.video.duration ? utils.secondToTime(this.video.duration) : '00:00';
-        }
+        this.container.getElementsByClassName('dplayer-dtime')[0].innerHTML = '12:13'
+        // if (this.video.duration !== 1) { // compatibility: Android browsers will output 1 at first
+        //     this.container.getElementsByClassName('dplayer-dtime')[0].innerHTML = this.video.duration ? utils.secondToTime(this.video.duration) : '00:00';
+        // }
 
         if (!this.danmaku) {
             // autoplay
@@ -991,11 +992,11 @@ class DPlayer {
          * video events
          */
         // show video time: the metadata has loaded or changed
-        this.on('durationchange', () => {
-            if (video.duration !== 1) {           // compatibility: Android browsers will output 1 at first
-                this.container.getElementsByClassName('dplayer-dtime')[0].innerHTML = utils.secondToTime(video.duration);
-            }
-        });
+        // this.on('durationchange', () => {
+        //     if (video.duration !== 1) {           // compatibility: Android browsers will output 1 at first
+        //          this.container.getElementsByClassName('dplayer-dtime')[0].innerHTML = utils.secondToTime(video.duration);
+        //     }
+        // });
 
         // show video loaded bar: to inform interested parties of progress downloading the media
         this.on('progress', () => {
