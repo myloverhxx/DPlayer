@@ -985,7 +985,8 @@ class DPlayer {
 
     initVideo (video, type) {
         this.initMSE(video, type);
-
+        console.log(video)
+        this.container.getElementsByClassName('dplayer-dtime')[0].innerHTML = '12:12'
         /**
          * video events
          */
