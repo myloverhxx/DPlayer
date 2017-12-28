@@ -2,7 +2,7 @@ const html = {
     main: (options, index, tran, icons) => `
         <div class="dplayer-mask"></div>
         <div class="dplayer-video-wrap">
-            ${html.video(true, options.video.pic, options.screenshot, options.preload, options.video.url, options.subtitle)}
+            ${html.video(true, options.video.pic, options.screenshot, options.preload, options.video.url, options.subtitle, options.video.videoLength)}
             ${options.logo ? `
             <div class="dplayer-logo"><img src="${options.logo}"></div>
             ` : ``}
@@ -114,7 +114,7 @@ const html = {
                         </div>
                     </div>
                 </div>
-                <span class="dplayer-time"><span class="dplayer-ptime">0:00</span> / <span class="dplayer-dtime">0:00</span></span>
+                <span class="dplayer-time"><span class="dplayer-ptime">00:00</span> / <span class="dplayer-dtime">00:00</span></span>
             </div>
             <div class="dplayer-icons dplayer-icons-right">
                 ${options.video.quality ? `
@@ -201,11 +201,11 @@ const html = {
         return result;
     },
 
-    video: (current, pic, screenshot, preload, url, subtitle) => {
+    video: (current, pic, screenshot, preload, url, subtitle, videoLength) => {
         const enableSubtitle = subtitle && subtitle.type === 'webvtt';
         return `
         <video class="dplayer-video ${current ? `dplayer-video-current"` : ``}" ${pic ? `poster="${pic}"` : ``} webkit-playsinline playsinline ${screenshot || enableSubtitle ? `crossorigin="anonymous"` : ``} ${preload ? `preload="${preload}"` : ``} src="${url}">
-            ${enableSubtitle ? `<track kind="metadata" default src="${subtitle.url}"></track>` : ``}
+            ${enableSubtitle ? `<track kind="metadata" default src="${subtitle.url}"></track>` : ``} ${videoLength ? `videoLength="${videoLength}"` : ``}
         </video>`;
     },
 

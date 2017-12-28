@@ -510,7 +510,7 @@ class DPlayer {
         // settingEvent();
 
         // set duration time
-        this.container.getElementsByClassName('dplayer-dtime')[0].innerHTML = '12:13'
+        // this.container.getElementsByClassName('dplayer-dtime')[0].innerHTML = video.length
         // if (this.video.duration !== 1) { // compatibility: Android browsers will output 1 at first
         //     this.container.getElementsByClassName('dplayer-dtime')[0].innerHTML = this.video.duration ? utils.secondToTime(this.video.duration) : '00:00';
         // }
@@ -986,8 +986,7 @@ class DPlayer {
 
     initVideo (video, type) {
         this.initMSE(video, type);
-        console.log(video)
-        this.container.getElementsByClassName('dplayer-dtime')[0].innerHTML = '12:12'
+        this.container.getElementsByClassName('dplayer-dtime')[0].innerHTML = this.options.video.videoLength
         /**
          * video events
          */
