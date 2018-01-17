@@ -986,6 +986,7 @@ class DPlayer {
 
     initVideo (video, type) {
         this.initMSE(video, type);
+        this.container.getElementsByClassName('dplayer-ptime')[0].innerHTML = this.options.video.videoLength.length >5 ? '00:00:00' : '00:00'
         this.container.getElementsByClassName('dplayer-dtime')[0].innerHTML = this.options.video.videoLength
         /**
          * video events
