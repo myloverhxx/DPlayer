@@ -264,7 +264,8 @@ class DPlayer {
             this.setTime();
         };
 
-        pbar.addEventListener('mousedown', () => {
+        pbar.addEventListener('touchend', (event) => {
+            event.stopPropagation();
             barWidth = pbar.clientWidth;
             this.clearTime();
             document.addEventListener('mousemove', thumbMove);
