@@ -309,8 +309,8 @@ class DPlayer {
             this.volume(percentage);
         });
         volumeBarWrapWrap.addEventListener('mousedown', () => {
-            document.addEventListener('mousemove', volumeMove);
-            document.addEventListener('mouseup', volumeUp);
+            document.addEventListener('mousemove', volumeMove, true);
+            document.addEventListener('mouseup', volumeUp, true);
             volumeEle.classList.add('dplayer-volume-active');
         });
         volumeicon.addEventListener('click', () => {
